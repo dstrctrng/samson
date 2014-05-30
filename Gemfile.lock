@@ -127,7 +127,6 @@ GEM
     multi_json (1.10.0)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
-    mysql2 (0.3.15)
     newrelic_api (1.2.4)
     newrelic_rpm (3.8.0.218)
     oauth2 (0.9.3)
@@ -254,7 +253,6 @@ DEPENDENCIES
   logstash-event
   minitest-rails (~> 2.0.0.beta1)
   momentjs-rails
-  mysql2 (~> 0.3)
   newrelic_api
   newrelic_rpm (>= 3.7.1)
   octokit (~> 3.0.0)

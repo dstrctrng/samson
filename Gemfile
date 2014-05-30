@@ -6,7 +6,7 @@ gem 'dotenv-rails', '~> 0.9'
 
 # Database (use one of these)
 gem 'sqlite3'
-gem 'mysql2', '~> 0.3'
+# gem 'mysql2', '~> 0.3'
 # gem 'pg', '~>0.13.2'
 
 gem 'kaminari'
