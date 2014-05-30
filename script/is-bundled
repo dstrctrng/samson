@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+if [[ "$(bundle check 2>&- | awk '{print $NF}')" = "satisfied" ]]; then
+  echo ".already_bundled"
+else
+  echo "need_bundler"
+fi

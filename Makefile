@@ -1,4 +1,4 @@
-BUNDLE := bundler_$(shell bundle check 2>&- | awk '{print $NF}')
+BUNDLED := $(shell script/is-bundled)
 
 all: config/database.yml .env
 
@@ -11,8 +11,10 @@ config/database.yml: $(BUNDLED)
 	install -m 0600 .env.tmp .env
 	rm -f .env.tmp
 
-bundler_:
+need_bundler:
+	echo $(BUNDLED)
 	bundle check --path vendor/bundle || bundle --path vendor/bundle --local
+	touch .already_bundled
 
-bundler_satisfied:
-	@true
+.already_bundled:
+	touch .already_bundled
