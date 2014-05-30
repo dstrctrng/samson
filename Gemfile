@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '~> 4.1.0'
 gem 'puma'
 gem 'dotenv-rails', '~> 0.9'
+gem 'foreman'
 
 # Database (use one of these)
 gem 'sqlite3'
