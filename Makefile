@@ -3,6 +3,7 @@ all: config/database.yml .env
 
 config/database.yml:
 	install -m 0600 config/database.sqlite.yml.example config/database.yml
+	bundle exec rake db:setup
 
 .env:
 	install -m 0600 .env.example .env
