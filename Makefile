@@ -4,7 +4,7 @@ all: config/database.yml .env
 
 config/database.yml: $(BUNDLED)
 	install -m 0600 config/database.sqlite.yml.example config/database.yml
-	bundle exec rake db:setup
+	@echo Might want to run: bundle exec rake db:setup
 
 .env: $(BUNDLED)
 	bundle exec rake secret | script/embed-secret.pl - .env.example > .env.tmp
