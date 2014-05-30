@@ -7,7 +7,7 @@ config/database.yml: $(BUNDLED)
 	bundle exec rake db:setup
 
 .env: $(BUNDLED)
-	bundle exec rake secret | ./embed-secret.pl - .env.example > .env.tmp
+	bundle exec rake secret | script/embed-secret.pl - .env.example > .env.tmp
 	install -m 0600 .env.tmp .env
 	rm -f .env.tmp
 
