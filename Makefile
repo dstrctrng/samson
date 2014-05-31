@@ -3,6 +3,9 @@ BUNDLED := $(shell bin/is-bundled)
 all: $(BUNDLED)
 	@true
 
+deploy:
+	bin/test-this
+
 bootstrap: config/database.yml .env
 
 config/database.yml: $(BUNDLED)
