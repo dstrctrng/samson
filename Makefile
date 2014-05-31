@@ -1,6 +1,9 @@
 BUNDLED := $(shell script/is-bundled)
 
-all: config/database.yml .env
+all: $(BUNDLED)
+	@true
+
+bootstrap: config/database.yml .env
 
 config/database.yml: $(BUNDLED)
 	install -m 0600 config/database.sqlite.yml.example config/database.yml
