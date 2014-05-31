@@ -36,7 +36,7 @@ Streaming is done through a [controller](app/controllers/streams_controller.rb) 
 
 ```bash
 # Bundle and copy example files into place.
-script/bootstrap
+make bootstrap
 
 # Fill in .env with a few variables
 # [REQUIRED]
