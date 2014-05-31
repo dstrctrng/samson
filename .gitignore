@@ -12,6 +12,10 @@
 # Ignore Makefile side-effects
 /.already_bundled
 
+# ruby versioning
+.rbenv-version
+.ruby-version
+
 # Ignore the default SQLite database.
 /db/*.sqlite3
 /db/*.sqlite3-journal
