@@ -1,5 +1,18 @@
 **Use of this software is subject to important terms and conditions as set forth in the License file**
 
+## Fork of Samson
+
+Samson is a web interface for deploys.  This fork generalizes the web
+interface to shell scripts.  Maybe these scripts run in screen/tmux.
+
+Web administration is removed in favor of the command line.
+
+Some examples of shell scripts:
+
+* image builds
+* puppet runs
+* migrations
+
 ## Samson
 
 [![Build Status](https://travis-ci.org/zendesk/samson.svg?branch=master)](https://travis-ci.org/zendesk/samson)
