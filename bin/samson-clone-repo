@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+set -efu
+
+function main {
+  local repo_url="$1"; shift
+  local reference="$1"; shift
+  local repo_cache_dir="$1"; shift
+  local dir="$1"; shift
+
+  if [[ -d "$repo_cache_dir" ]]; then
+    cd "$repo_cache_dir"
+    git fetch -ap
+  else
+    git -c core.askpass=true clone --mirror "$repo_url" "$repo_cache_dir"
+  fi
+
+  git clone "$repo_cache_dir" "$dir"
+
+  cd "$dir"
+  git checkout --quiet "$reference"
+}
+
+main "$@"

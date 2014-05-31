@@ -110,43 +110,20 @@ class JobExecution
     FileUtils.mkdir_p(artifact_cache_dir)
     @output.write("Executing deploy\n")
 
-    commands = [
-      "export DEPLOYER=#{@job.user.email}",
-      "export DEPLOYER_EMAIL=#{@job.user.email}",
-      "export DEPLOYER_NAME=\"#{@job.user.name}\"",
-      "export REVISION=#{@reference}",
-      "export CACHE_DIR=#{artifact_cache_dir}",
-      "cd #{dir}",
-      *@job.commands
-    ]
-
     ActiveRecord::Base.clear_active_connections!
-    @executor.execute!(*commands)
+    @executor.execute!("samson-run-deploy", dir, @job.user.email, @job.user.name, @reference, artifact_cache_dir, *@job.commands)
   end
 
   def setup!(dir)
     repo_url = @job.project.repository_url
     @output.write("Beginning git repo setup\n")
 
-    commands = [
-      <<-SHELL,
-        if [ -d #{repo_cache_dir} ]
-          then cd #{repo_cache_dir} && git fetch -ap
-        else
-          git -c core.askpass=true clone --mirror #{repo_url} #{repo_cache_dir}
-        fi
-      SHELL
-      "git clone #{repo_cache_dir} #{dir}",
-      "cd #{dir}",
-      "git checkout --quiet #{@reference}"
-    ]
-
     @output.write("Attempting to lock repository...\n")
 
     if grab_lock
       @output.write("Repo locked, starting to clone...\n")
 
-      @executor.execute!(*commands).tap do |status|
+      @executor.execute!("samson-clone-repo", repo_url, @reference, repo_cache_dir, dir).tap do |status|
         if status
           commit = `cd #{repo_cache_dir} && git rev-parse #{@reference}`.chomp
           ActiveRecord::Base.connection.verify!

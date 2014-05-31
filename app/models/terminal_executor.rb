@@ -7,9 +7,9 @@ require 'pty'
 #
 #   output = StringIO.new
 #   terminal = TerminalExecutor.new(output)
-#   terminal.execute!("echo hello", "echo world")
+#   terminal.execute!("echo", "hello")
 #
-#   output.string #=> "hello\r\nworld\r\n"
+#   output.string #=> "hello\r\"
 #
 class TerminalExecutor
   attr_reader :pid
@@ -18,17 +18,11 @@ class TerminalExecutor
     @output = output
   end
 
-  def execute!(*commands)
-    command = commands.map {|command| wrap_command(command) }.join("\n")
-
-    if RUBY_ENGINE == 'jruby'
-      command = %Q{/bin/sh -c "#{command.gsub(/"/, '\\"')}"}
-    end
-
+  def execute!(command, *args)
     payload = {}
 
     ActiveSupport::Notifications.instrument("execute_shell.samson", payload) do
-      payload[:success] = execute_command!(command)
+      payload[:success] = execute_command!(command, *args)
     end
   end
 
@@ -40,9 +34,9 @@ class TerminalExecutor
 
   private
 
-  def execute_command!(command)
+  def execute_command!(command, *args)
     output, input, @pid = Bundler.with_clean_env do
-      PTY.spawn(command, in: "/dev/null")
+      PTY.spawn(command, *args, in: "/dev/null")
     end
 
     begin
@@ -56,18 +50,6 @@ class TerminalExecutor
     input.close
 
     return status.success?
-  end
-
-  def wrap_command(command)
-    <<-G
-#{command}
-RETVAL=$?
-if [ "$RETVAL" != "0" ];
-then
-echo '#{error(command)}' >&2
-exit $RETVAL
-fi
-    G
   end
 
   def error(command)

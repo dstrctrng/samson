@@ -34,7 +34,7 @@ Streaming is done through a [controller](app/controllers/streams_controller.rb) 
 
 #### Config
 
-```bash
+```
 # Bundle and copy example files into place.
 make bootstrap
 
@@ -71,8 +71,8 @@ make bootstrap
 
 #### To run
 
-```bash
-bundle exec puma -C config/puma.rb
+```
+env PATH=$PATH:$(pwd)/bin bundle exec puma -C config/puma.rb
 ```
 
 The website runs at [http://localhost:9080/](http://localhost:9080) by default.
