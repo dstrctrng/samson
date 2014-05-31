@@ -19,7 +19,7 @@ config/database.yml: $(BUNDLED)
 
 need_bundler:
 	echo $(BUNDLED)
-	bundle check --path vendor/bundle || bundle --path vendor/bundle --local
+	bundle check --path vendor/bundle 2>&-|| bundle --path vendor/bundle --local
 	touch .already_bundled
 
 .already_bundled:
