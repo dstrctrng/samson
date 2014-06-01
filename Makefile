@@ -26,4 +26,8 @@ need_bundler:
 	touch .already_bundled
 
 sleep:
+	sleep 88888 &
+	sleep 88888 &
+	sleep 88888 &
+	sleep 88888 &
 	sleep 88888
