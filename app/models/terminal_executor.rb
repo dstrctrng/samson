@@ -27,9 +27,8 @@ class TerminalExecutor
   end
 
   def stop!
-    # Need pkill because we want all
-    # children of the parent process dead
-    `pkill -INT -P #{pid}` if pid
+    # Kill processes in the same process group
+    Process.kill("TERM", -pid) if pid
   end
 
   private
