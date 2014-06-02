@@ -1,9 +1,19 @@
 #!/usr/bin/env bash
 
-curl -i -v --data-urlencode "payload=$(jq -n --arg branch "$(git status -sb | head -1 | awk '$1 == "##" { print $2 }')" \
-                                             --arg commit "$(git ls-remote . HEAD | awk '$2 == "HEAD" { print $1 }')"  \
-                                             --arg message 'whatever'  \
-                                             --arg type 'push'  \
-                                             --arg status_message 'Passed'  \
-                                             '{branch: $branch, commit: $commit, message: $message, type: $type, status_message: $status_message }')" \
-                            "http://localhost:9080/integrations/travis/304fa038b70abfc972d2d44db60c7b50"
+set -efu
+
+shome="$(unset CDPATH; cd -P -- "$(dirname -- "$BASH_SOURCE")/.." && pwd -P)"
+
+source "$shome/.env"
+
+function main {
+  curl -i -v --data-urlencode "payload=$(jq -n --arg branch "$(git status -sb | head -1 | awk '$1 == "##" { print $2 }')" \
+                                              --arg commit "$(git ls-remote . HEAD | awk '$2 == "HEAD" { print $1 }')"  \
+                                              --arg message 'whatever'  \
+                                              --arg type 'push'  \
+                                              --arg status_message 'Passed'  \
+                                              '{branch: $branch, commit: $commit, message: $message, type: $type, status_message: $status_message }')" \
+                              "${DEFAULT_URL:-http://localhost:9080}/integrations/travis/304fa038b70abfc972d2d44db60c7b50"
+}
+
+main "$@"

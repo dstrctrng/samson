@@ -2,6 +2,10 @@
 
 set -efu
 
+shome="$(unset CDPATH; cd -P -- "$(dirname -- "$BASH_SOURCE")/.." && pwd -P)"
+
+source "$shome/.env"
+
 function main {
   local repo_url="$1"; shift
   local reference="$1"; shift

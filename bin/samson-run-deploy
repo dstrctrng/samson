@@ -2,6 +2,10 @@
 
 set -efu
 
+shome="$(unset CDPATH; cd -P -- "$(dirname -- "$BASH_SOURCE")/.." && pwd -P)"
+
+source "$shome/.env"
+
 function main {
   local dir="$1"; shift
   local user_email="$1"; shift
